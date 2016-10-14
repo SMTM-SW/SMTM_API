@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="ui container">
+    <div class="ui stackable centered grid">
+      <div class="row">
+        <div class="six wide column" style="margin: 15em;">
+          <a href="{{ config['HOST_CLIENT'] }}">
+            <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
+                 style="margin: 3em 0em;"/>
+          </a>
+
+          <form action="{{ request.url }}" method="POST" class="ui form signin-form">
+            {{ form.csrf_token }}
+            <div class="field" id="user-id-field">
+              <div class="ui small input">
+                {{ form.username(placeholder="아이디") }}
+              </div>
+            </div>
+            <div class="field" id="user-password-field">
+              <div class="ui small input">
+                {{ form.password(placeholder="비밀번호") }}
+              </div>
+            </div>
+            <div class="field" id="user-confirm_password-field">
+              <div class="ui small input">
+                {{ form.confirm_password(placeholder="비밀번호 확인") }}
+              </div>
+            </div>
+            <div class="field" id="user-name-field">
+              <div class="ui small input">
+                {{ form.name(placeholder="이름") }}
+              </div>
+            </div>
+            <div class="field" id="user-nickname-field">
+              <div class="ui small input">
+                {{ form.nickname(placeholder="닉네임") }}
+              </div>
+            </div>
+            <div class="field" id="user-email-field">
+              <div class="ui small input">
+                {{ form.email(placeholder="이메일") }}
+              </div>
+            </div>
+            <button type="submit" class="fluid ui primary button">로그인</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

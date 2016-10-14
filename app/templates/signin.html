@@ -1,8 +1,6 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'layout.html' %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='lib/semantic-ui/dist/semantic.min.css') }}"/>
-
-<body>
+{% block content %}
 <div class="ui container">
   <div class="ui stackable centered grid">
     <div class="row">
@@ -35,8 +33,9 @@
           </div>
           <button type="submit" class="fluid ui primary button">로그인</button>
         </form>
+        <a class="fluid ui primay button" href="{{ url_for('signup') }}">회원가입</a>
       </div>
     </div>
   </div>
 </div>
-</body>
+{% endblock %}

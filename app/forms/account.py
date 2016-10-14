@@ -1,9 +1,10 @@
-from app.models.user import UserModel
 from wtforms import StringField, PasswordField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, required, EqualTo
 from wtforms_alchemy import Unique
-from wtforms_components import SelectField, Email, ModelForm
+from wtforms_components import Email, ModelForm
+
+from app.models.user import UserModel
 
 
 class SignUpForm(ModelForm):
@@ -33,7 +34,6 @@ class SignUpForm(ModelForm):
         Email(message='유효한 이메일 주소를 입력해주세요.'),
         Unique(UserModel.email, message='이미 존재하는 이메일입니다.')
     ])
-    gender = SelectField('Gender', choices=[('male', '남자'), ('female', '여자')])
 
 
 class SignInForm(ModelForm):

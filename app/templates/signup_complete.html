@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="ui container">
+    <div class="ui stackable centered grid">
+      <div class="row">
+        <div class="six wide column" style="margin: 15em;">
+          <a href="{{ config['HOST_CLIENT'] }}">
+            <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
+                 style="margin: 3em 0em;"/>
+          </a>
+
+          <h3 class="ui center aligned header">회원가입을 축하합니다</h3>
+          <p class="help-message">
+            환영합니다!<br/>
+          </p>
+          <a href="{{ config['HOST_CLIENT'] }}" class="fluid ui animated fade teal button manage-user-segment">
+            <div class="visible content">메인으로 돌아가기</div>
+            <div class="hidden content">
+              <i class="right arrow icon"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
