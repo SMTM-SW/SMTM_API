@@ -1,15 +1,19 @@
 import datetime
+import hashlib
 import time
 
-import hashlib
-from app import db
 from sqlalchemy.dialects.mysql import BIGINT, TEXT, TIMESTAMP
 from sqlalchemy.sql.expression import text
 
+from app import app, db
+
 
 class CredentialModel(db.Model):
+    __bind_key__ = app.config.get('OAUTH_DATABASE')
     __tablename__ = 'credentials'
     __table_args__ = {
+        'schema': __bind_key__,
+        'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8',
         'extend_existing': True
     }
@@ -25,7 +29,7 @@ class CredentialModel(db.Model):
     )
     app_id = db.Column(
         BIGINT(20, unsigned=True),
-        db.ForeignKey('clients.id', ondelete='CASCADE'),
+        db.ForeignKey('.'.join((__bind_key__, 'clients.id')), ondelete='CASCADE'),
         nullable=False
     )
     application = db.relationship('ClientModel', backref='credential', lazy='joined')

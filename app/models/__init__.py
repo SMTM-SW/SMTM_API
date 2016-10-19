@@ -1,9 +1,2 @@
-__all__ = [
-    'user',
-    'board',
-    'document',
-    'grant_token',
-    'bearer_token',
-    'credential',
-    'client'
-]
+from app.models.application import *
+from app.models.oauth import *

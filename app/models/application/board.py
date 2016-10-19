@@ -3,12 +3,15 @@ import datetime
 from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP
 from sqlalchemy.sql.expression import text
 
-from app import db
+from app import app, db
 
 
 class BoardModel(db.Model):
+    __bind_key__ = app.config.get('DEFAULT_DATABASE')
     __tablename__ = 'boards'
     __table_args__ = {
+        'schema': __bind_key__,
+        'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8',
         'extend_existing': True
     }

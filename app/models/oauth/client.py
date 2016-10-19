@@ -1,13 +1,17 @@
 import datetime
 
-from app import db, app
 from sqlalchemy.dialects.mysql import BIGINT, TEXT, TIMESTAMP
 from sqlalchemy.sql.expression import text
 
+from app import app, db
+
 
 class ClientModel(db.Model):
+    __bind_key__ = app.config.get('OAUTH_DATABASE')
     __tablename__ = 'clients'
     __table_args__ = {
+        'schema': __bind_key__,
+        'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8',
         'extend_existing': True
     }
