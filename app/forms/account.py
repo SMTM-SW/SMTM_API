@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Length, required, EqualTo
 from wtforms_alchemy import Unique
 from wtforms_components import Email, ModelForm
 
-from app.models.user import UserModel
+from app.models.application.user import UserModel
 
 
 class SignUpForm(ModelForm):

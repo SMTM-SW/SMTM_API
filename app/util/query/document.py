@@ -1,5 +1,5 @@
-from app.models.document import DocumentModel
-from app.models.user import UserModel
+from app.models.application.document import DocumentModel
+from app.models.application.user import UserModel
 
 
 def getDocumentQuery(document_id):

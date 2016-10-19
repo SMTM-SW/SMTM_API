@@ -1,23 +1,24 @@
+import random
 import string
 
 import arrow
-import random
+from flask import request, render_template
+from flask_restful import Resource
+
 from app import app, oauth_provider, api_root, db
 from app.api.exceptions import NotFoundError
 from app.api.util import check_content_type
 from app.forms.account import SignInForm
-from app.models.bearer_token import BearerTokenModel
-from app.models.client import ClientModel
-from app.models.credential import CredentialModel
-from app.models.grant_token import GrantTokenModel
-from app.models.user import UserModel
+from app.models.application.user import UserModel
+from app.models.oauth.bearer_token import BearerTokenModel
+from app.models.oauth.client import ClientModel
+from app.models.oauth.credential import CredentialModel
+from app.models.oauth.grant_token import GrantTokenModel
 from app.util.form import validate_on_submit
-from flask import request, render_template
-from flask_restful import Resource
 
 permission_table = {
     'manager': [
-        'profile', 'read_document', 'publish_document', 'read_comment', 'publish_comment', 'manage_users'
+        'profile', 'read_document', 'publish_document', 'read_comment', 'publish_comment', 'manage_users', 'manage_site'
     ],
     'registered': [
         'profile', 'read_document', 'publish_document', 'read_comment', 'publish_comment'

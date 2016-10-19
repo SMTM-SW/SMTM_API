@@ -2,13 +2,13 @@ from flask import render_template, request, redirect, url_for, jsonify
 
 from app import app, db, bcrypt
 from app.forms.account import SignUpForm
-from app.models.user import UserModel
+from app.models.application.user import UserModel
 from app.util.form import validate_on_submit
 
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-    data = {"test": "hello"}
+    data = {"server_status": "Healthy!"}
     return jsonify(data)
 
 @app.route('/account/signup', methods=['GET', 'POST'])

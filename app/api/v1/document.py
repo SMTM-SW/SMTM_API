@@ -1,14 +1,14 @@
 import arrow
-from app import api_root, db, oauth_provider
-from app.api.exceptions import BadRequestError
-from app.api.marshals import document_field
-from app.models.board import BoardModel
-from app.models.document import DocumentModel
-from app.api.exceptions import NotFoundError
-from sqlalchemy.orm.exc import NoResultFound
-from app.util.query.document import getDocumentQuery, getDocumentListQuery
 from flask import request
 from flask_restful import Resource, marshal_with, reqparse
+from sqlalchemy.orm.exc import NoResultFound
+
+from app import api_root, db, oauth_provider
+from app.api.exceptions import NotFoundError
+from app.api.marshals import document_field
+from app.models.application.board import BoardModel
+from app.models.application.document import DocumentModel
+from app.util.query.document import getDocumentQuery, getDocumentListQuery
 
 
 @api_root.resource('/v1/document/<int:document_id>')

@@ -1,12 +1,13 @@
 import arrow
+from flask import request, jsonify
+from flask_restful import Resource, marshal_with, reqparse
+from sqlalchemy.exc import IntegrityError
+
 from app import bcrypt, api_root, db, oauth_provider
 from app.api.exceptions import BadRequestError
 from app.api.exceptions import ConflictError, UnauthorizedError
 from app.api.marshals import user_field
-from app.models.user import UserModel
-from flask import request, jsonify
-from flask_restful import Resource, marshal_with, reqparse
-from sqlalchemy.exc import IntegrityError
+from app.models.application.user import UserModel
 
 
 @api_root.resource('/v1/account')
