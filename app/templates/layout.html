@@ -9,7 +9,10 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='lib/semantic-ui/dist/semantic.min.css') }}"/>
   {% block style %}{% endblock %}
 </head>
-<body {% if use_background_image %}style="background-image: url({{ background_image_url }})"{% endif %}>
+<body {% if use_background_image %}style="position:fixed;
+        height: 100%;
+        width: 100%;
+        background-image: url({{ url_for('static', filename='images/bg6.jpg') }})"{% endif %}>
 <div class="ui container">
   {% block content %}
   {% endblock %}

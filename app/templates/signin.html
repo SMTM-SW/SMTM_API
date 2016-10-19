@@ -1,13 +1,16 @@
 {% extends 'layout.html' %}
 
+{% set use_background_image = True %}
+
 {% block content %}
-<div class="ui container">
-  <div class="ui stackable centered grid">
-    <div class="row">
-      <div class="six wide column" style="margin: 15em;">
+  <div class="ui container">
+    <div class="ui three column stackable centered grid">
+      <div class="column" style="margin: 15em;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: .28571429rem;">
         <a href="{{ config['HOST_CLIENT'] }}">
           <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
-               style="margin: 3em 0em;"/>
+               style="margin: 2em 0em;"/>
         </a>
 
         {% with errors = get_flashed_messages(category_filter=['error']) %}
@@ -33,9 +36,18 @@
           </div>
           <button type="submit" class="fluid ui primary button">로그인</button>
         </form>
-        <a class="fluid ui primay button" href="{{ url_for('signup') }}">회원가입</a>
+        <div class="ui horizontal divider">
+          Or
+        </div>
+        <a class="fluid ui vertical animated green button" href="{{ url_for('signup') }}">
+          <div class="hidden content">
+            <i class="right arrow icon"></i>
+          </div>
+          <div class="visible content">
+            <span>회원가입</span>
+          </div>
+        </a>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

@@ -1,50 +1,61 @@
 {% extends 'layout.html' %}
 
+{% set use_background_image = True %}
+
 {% block content %}
   <div class="ui container">
-    <div class="ui stackable centered grid">
-      <div class="row">
-        <div class="six wide column" style="margin: 15em;">
-          <a href="{{ config['HOST_CLIENT'] }}">
-            <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
-                 style="margin: 3em 0em;"/>
-          </a>
+    <div class="ui three column centered stackable grid">
+      <div class="left aligned column" style="margin: 5em;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: .28571429rem;">
+        <a href="{{ config['HOST_CLIENT'] }}">
+          <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
+               style="margin: 2em 0em;"/>
+        </a>
 
-          <form action="{{ request.url }}" method="POST" class="ui form signin-form">
-            {{ form.csrf_token }}
-            <div class="field" id="user-id-field">
-              <div class="ui small input">
-                {{ form.username(placeholder="아이디") }}
-              </div>
+        <form action="{{ request.url }}" method="POST" class="ui form signin-form">
+          {{ form.csrf_token }}
+          <h4 class="ui dividing header">계정정보</h4>
+          <div class="field" id="user-id-field">
+            <label for="user-id-field">아이디</label>
+            <div class="ui small input">
+              {{ form.username(placeholder="아이디") }}
             </div>
-            <div class="field" id="user-password-field">
-              <div class="ui small input">
-                {{ form.password(placeholder="비밀번호") }}
-              </div>
+          </div>
+          <div class="field" id="user-password-field">
+            <label for="user-password-field">패스워드</label>
+            <div class="ui small input">
+              {{ form.password(placeholder="비밀번호") }}
             </div>
-            <div class="field" id="user-confirm_password-field">
-              <div class="ui small input">
-                {{ form.confirm_password(placeholder="비밀번호 확인") }}
-              </div>
+          </div>
+          <div class="field" id="user-confirm_password-field">
+            <label for="user-confirm_password-field">패스워드 재확인</label>
+            <div class="ui small input">
+              {{ form.confirm_password(placeholder="비밀번호 확인") }}
             </div>
-            <div class="field" id="user-name-field">
-              <div class="ui small input">
-                {{ form.name(placeholder="이름") }}
-              </div>
+          </div>
+          <h4 class="ui dividing header">개인정보</h4>
+
+          <div class="field" id="user-name-field">
+            <label for="user-name-field">이름</label>
+            <div class="ui small input">
+              {{ form.name(placeholder="이름") }}
             </div>
-            <div class="field" id="user-nickname-field">
-              <div class="ui small input">
-                {{ form.nickname(placeholder="닉네임") }}
-              </div>
+          </div>
+          <div class="field" id="user-nickname-field">
+            <label for="user-nickname-field">닉네임</label>
+            <div class="ui small input">
+              {{ form.nickname(placeholder="닉네임") }}
             </div>
-            <div class="field" id="user-email-field">
-              <div class="ui small input">
-                {{ form.email(placeholder="이메일") }}
-              </div>
+          </div>
+          <div class="field" id="user-email-field">
+            <label for="user-email-field">이메일</label>
+            <div class="ui small input">
+              {{ form.email(placeholder="이메일") }}
             </div>
-            <button type="submit" class="fluid ui primary button">회원가입</button>
-          </form>
-        </div>
+          </div>
+          <button type="submit" class="fluid ui primary button">회원가입</button>
+        </form>
       </div>
     </div>
   </div>

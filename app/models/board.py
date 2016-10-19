@@ -1,8 +1,9 @@
 import datetime
 
-from app import app, db
 from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP
 from sqlalchemy.sql.expression import text
+
+from app import db
 
 
 class BoardModel(db.Model):
