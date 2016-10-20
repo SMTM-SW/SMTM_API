@@ -1,8 +1,8 @@
-# If applied, this commit will...
+### If applied, this commit will...
 
-# Explain why this change is being made
+### Explain why this change is being made
 
-# Provide links to any relevant tickets, articles or other resources
+### Provide links to any relevant tickets, articles or other resources
 
 <!-- Add, Mod, Ref, Fix, Rem, Rea -->
 <!-- [Add] : description -->
