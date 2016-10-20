@@ -25,3 +25,18 @@ document_field = {
     "username": fields.String(attribute="username"),
     "created_date": fields.String(attribute="created_date")
 }
+
+project_field = {
+    "id": fields.String(attribute='id'),
+    "title": fields.String(attribute='title'),
+    "description": fields.String(attribute="description"),
+    "status": fields.String(attribute="status"),
+    # TODO : user_id는 나중에 모두 뺄 수 있도록
+    "user_id": fields.String(attribute="user_id"),
+    "username": fields.String(attribute="username"),
+    "created_date": fields.String(attribute="created_date")
+}
+
+project_list_fields = {
+    'items': fields.Nested(project_field)
+}
