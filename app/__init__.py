@@ -1,6 +1,7 @@
 import logging
 import sys
 
+import yagmail
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_oauthlib.provider import OAuth2Provider
@@ -11,15 +12,17 @@ app.config.from_object('config')
 
 bcrypt = Bcrypt(app)
 
-db = SQLAlchemy(app)
-
-from app.models import *
+yagmail.register(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
 
 oauth_provider = OAuth2Provider(app)
 
 oauth_logger = logging.getLogger('oauthlib')
 oauth_logger.addHandler(logging.StreamHandler(sys.stdout))
 oauth_logger.setLevel(logging.DEBUG)
+
+db = SQLAlchemy(app)
+
+from app.models import *
 
 for x in ['DEFAULT_DATABASE', 'OAUTH_DATABASE']:
     db.create_all(bind=app.config[x])
