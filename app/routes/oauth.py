@@ -148,8 +148,8 @@ def access_token():
     return None
 
 
-@api_root.resource('/oauth/application')
-class Applications(Resource):
+@api_root.resource('/oauth/client')
+class Clients(Resource):
     def post(self):
         data = request.get_json()
         new_app = ClientModel(data['name'])
