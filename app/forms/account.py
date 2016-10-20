@@ -1,6 +1,7 @@
+from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Length, required, EqualTo
+from wtforms.validators import Length, required, EqualTo
 from wtforms_alchemy import Unique
 from wtforms_components import Email, ModelForm
 
@@ -9,7 +10,7 @@ from app.models.application.user import UserModel
 
 class SignUpForm(ModelForm):
     username = StringField('ID', [
-        DataRequired(message='ID는 필수 항목입니다.'),
+        required(message='ID는 필수 항목입니다.'),
         Length(min=4, max=20, message='%(min)d글자 이상 %(max)d글자 이하로 입력해주세요.'),
         Unique(UserModel.username, message='이미 존재하는 아이디입니다.')
     ])
@@ -36,11 +37,12 @@ class SignUpForm(ModelForm):
     ])
 
 
-class SignInForm(ModelForm):
+class SignInForm(FlaskForm):
     username = StringField('ID', [
-        DataRequired(message='ID는 필수 항목입니다.'),
-        Length(min=4, max=15)
+        required(message='ID는 필수 항목입니다.'),
+        Length(min=4, max=20, message='%(min)d글자 이상 %(max)d글자 이하로 입력해주세요.'),
     ])
     password = PasswordField('Password', [
-        required(message='비밀번호는 필수 항목입니다.')
+        required(message='비밀번호는 필수 항목입니다.'),
+        Length(min=6, max=20, message='%(min)d 이상 %(max)d 이하로 입력해주세요.')
     ])
