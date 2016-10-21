@@ -17,9 +17,10 @@ class ProjectModel(db.Model):
     }
 
     status_enum = ('waiting', 'working', 'done', 'error')
+    contact_type_enum = ('none', 'email', 'sms', 'both')
 
     id = db.Column(
-        INTEGER(20, unsigned=True),
+        BIGINT(20, unsigned=True),
         primary_key=True,
         index=True
     )
@@ -36,12 +37,28 @@ class ProjectModel(db.Model):
         db.ForeignKey('.'.join((__bind_key__, 'users.id'))),
         nullable=False
     )
+    target_count = db.Column(
+        INTEGER(unsigned=True),
+        nullable=False,
+        default=0,
+        server_default='0'
+    )
+    interest_id = db.Column(
+        INTEGER(unsigned=True)
+    )
     status = db.Column(
         db.Enum(*status_enum),
         default=status_enum[0],
         server_default=status_enum[0],
         nullable=False
     )
+    contact_type = db.Column(
+        db.Enum(*contact_type_enum),
+        default=contact_type_enum[0],
+        server_default=contact_type_enum[0],
+        nullable=False
+    )
+
     is_activated = db.Column(
         db.Boolean,
         default=True,

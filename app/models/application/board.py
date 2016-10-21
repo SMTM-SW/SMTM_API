@@ -1,6 +1,7 @@
 import datetime
 
-from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP
+from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.sql.expression import text
 
 from app import app, db
@@ -17,7 +18,7 @@ class BoardModel(db.Model):
     }
 
     id = db.Column(
-        INTEGER(20, unsigned=True),
+        BIGINT(20, unsigned=True),
         primary_key=True,
         index=True
     )
