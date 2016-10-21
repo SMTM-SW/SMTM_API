@@ -16,23 +16,27 @@ user_field = {
 }
 
 document_field = {
-    "id": fields.String(attribute='id'),
+    "id": fields.Integer(attribute='id'),
     "title": fields.String(attribute='title'),
     "content": fields.String(attribute="content"),
-    "read_count": fields.String(attribute="read_count"),
-    "like_count": fields.String(attribute="like_count"),
-    "user_id": fields.String(attribute="user_id"),
+    "read_count": fields.Integer(attribute="read_count"),
+    "like_count": fields.Integer(attribute="like_count"),
+    "user_id": fields.Integer(attribute="user_id"),
     "username": fields.String(attribute="username"),
     "created_date": fields.String(attribute="created_date")
 }
 
 project_field = {
-    "id": fields.String(attribute='id'),
+    "id": fields.Integer(attribute='id'),
     "title": fields.String(attribute='title'),
     "description": fields.String(attribute="description"),
+    "target_count": fields.Integer(attribute="target_count"),
+    # TODO: interest 항목 나중에 추가
+    "interest_id": fields.String(attribute="interest_id"),
+    "contact_type": fields.String(attribute="contact_type"),
     "status": fields.String(attribute="status"),
     # TODO : user_id는 나중에 모두 뺄 수 있도록
-    "user_id": fields.String(attribute="user_id"),
+    "user_id": fields.Integer(attribute="user_id"),
     "username": fields.String(attribute="username"),
     "created_date": fields.String(attribute="created_date")
 }

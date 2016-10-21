@@ -1,10 +1,12 @@
 from flask import request
 from flask_restful import Resource, marshal_with
+from sqlalchemy.orm.exc import NoResultFound
 
 from app import api_root, db, oauth_provider
-from app.api.marshals import project_list_fields
+from app.api.exceptions import NotFoundError
+from app.api.marshals import project_list_fields, project_field
 from app.models.application.project import ProjectModel
-from app.util.query.project import getProjectListQuery
+from app.util.query.project import getProjectListQuery, getProjectQuery, modProjectQuery
 
 
 @api_root.resource('/v1/project')
@@ -46,67 +48,63 @@ class Project_manage(Resource):
             ]
         }
 
-# @api_root.resource('/v1/project/<int:document_id>')
-# class DocumentList(Resource):
-#     @oauth_provider.require_oauth('profile')
-#     @marshal_with(document_field)
-#     def get(self, board_name):
-#
-#         target_board = DocumentList.get_target_board(board_name)
-#
-#         param_parser = reqparse.RequestParser()
-#         param_parser.add_argument('maxResult', type=int, default=10)
-#         args = param_parser.parse_args()
-#
-#         # TODO : 쿼리 정리좀 해줘야 함.
-#         query = getDocumentListQuery().filter_by(board_id=target_board.id)
-#         result = query \
-#             .order_by(DocumentModel.id.desc()) \
-#             .limit(args.maxResult) \
-#             .all()
-#
-#         output = list()
-#         for d in result:
-#             data = dict(zip(d.keys(), d))
-#             output.append(data)
-#
-#         return output
-#
-#
-#     @oauth_provider.require_oauth('profile')
-#     def post(self,board_name):
-#
-#         target_board = DocumentList.get_target_board(board_name)
-#
-#         request_user = request.oauth.user
-#         request_body = request.get_json()
-#
-#         new_document = DocumentModel(
-#             board_id=target_board.id,
-#             user_id=request_user.id,
-#             title=request_body['title'],
-#             content=request_body['content'],
-#             created_date=arrow.utcnow().datetime
-#         )
-#
-#         db.session.add(new_document)
-#         db.session.commit()
-#
-#         return {
-#             'success': True,
-#             'messages': [
-#                 '정상적으로 작성되었습니다.'
-#             ]
-#         }
-#
-#
-#     @staticmethod
-#     def get_target_board(board_name):
-#         try:
-#             return BoardModel.query. \
-#                 with_entities(BoardModel.id, BoardModel.is_anonymous). \
-#                 filter_by(name=board_name). \
-#                 one()
-#
-#         except NoResultFound:
-#             raise NotFoundError
+
+@api_root.resource('/v1/project/<int:project_id>')
+class Project(Resource):
+    @oauth_provider.require_oauth('profile')
+    @marshal_with(project_field)
+    def get(self, project_id):
+        request_user = request.oauth.user
+
+        try:
+            result = getProjectQuery(request_user.id, project_id).one()
+
+        except NoResultFound:
+            raise NotFoundError
+
+        project = dict(zip(result.keys(), result))
+        return project
+
+    @oauth_provider.require_oauth('profile')
+    def put(self, project_id):
+        request_user = request.oauth.user
+        request_body = request.get_json()
+
+        try:
+            result = modProjectQuery(request_user.id, project_id).one()
+
+        except NoResultFound:
+            raise NotFoundError
+
+        result.title = request_body['title']
+        result.description = request_body['description']
+
+        db.session.commit()
+
+        return {
+            'success': True,
+            'messages': [
+                '성공적으로 반영되었습니다.'
+            ]
+        }
+
+    @oauth_provider.require_oauth('profile')
+    def delete(self, project_id):
+        request_user = request.oauth.user
+
+        try:
+            result = modProjectQuery(request_user.id, project_id).one()
+
+        except NoResultFound:
+            raise NotFoundError
+
+        result.is_activated = False
+
+        db.session.commit()
+
+        return {
+            'success': True,
+            'messages': [
+                '성공적으로 반영되었습니다.'
+            ]
+        }

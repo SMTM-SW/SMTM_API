@@ -22,7 +22,7 @@ class DocumentModel(db.Model):
         index=True
     )
     board_id = db.Column(
-        INTEGER(20, unsigned=True),
+        BIGINT(20, unsigned=True),
         db.ForeignKey('.'.join((__bind_key__, 'boards.id')))
     )
     title = db.Column(
