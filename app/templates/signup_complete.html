@@ -3,14 +3,10 @@
 {% set use_background_image = True %}
 
 {% block content %}
-  <div class="ui container">
     <div class="ui three column stackable centered grid">
-      <div class="column" style="margin: 15em;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: .28571429rem;">
+      <div class="account column">
         <a href="{{ config['HOST_CLIENT'] }}">
-          <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
-               style="margin: 2em 0em;"/>
+          <img class="ui banner image" src="{{ url_for('static', filename='images/main_banner.png') }}"/>
         </a>
 
         <h3 class="ui center aligned header">회원가입을 축하합니다</h3>
@@ -25,5 +21,4 @@
         </a>
       </div>
     </div>
-  </div>
 {% endblock %}

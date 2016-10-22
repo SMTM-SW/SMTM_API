@@ -3,51 +3,57 @@
 {% set use_background_image = True %}
 
 {% block content %}
-  <div class="ui container">
-    <div class="ui three column stackable centered grid">
-      <div class="column" style="margin: 15em;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: .28571429rem;">
-        <a href="{{ config['HOST_CLIENT'] }}">
-          <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
-               style="margin: 2em 0em;"/>
-        </a>
+  <div class="ui three column stackable centered grid">
+    <div class="account column">
+      <a href="{{ config['HOST_CLIENT'] }}">
+        <img class="ui banner image" src="{{ url_for('static', filename='images/main_banner.png') }}"/>
+      </a>
 
-        {% with errors = get_flashed_messages(category_filter=['error']) %}
-          {%- for message in errors %}
-            <div class="ui negative message">
-              <div class="header">로그인에 실패했습니다</div>
-              <p>{{ message }}</p>
-            </div>
-          {% endfor %}
-        {% endwith %}
+      {% with errors = get_flashed_messages(category_filter=['error']) %}
+        {%- for message in errors %}
+          <div class="ui negative message">
+            <div class="header">로그인에 실패했습니다</div>
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+      {% endwith %}
 
-        <form action="{{ request.url }}" method="POST" class="ui form signin-form">
-          {{ form.csrf_token }}
-          <div class="field" id="user-id-field">
-            <div class="ui small input">
-              {{ form.username(placeholder="아이디") }}
+      <form action="{{ request.url }}" method="POST" class="ui form signin-form {% if form.errors %} error{% endif %}">
+        {{ form.csrf_token }}
+        <div class="field" id="user-id-field">
+          {{ form.username(placeholder="아이디") }}
+          {% if form.errors['username'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['username'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <div class="field" id="user-password-field">
-            <div class="ui small input">
-              {{ form.password(placeholder="비밀번호") }}
-            </div>
-          </div>
-          <button type="submit" class="fluid ui primary button">로그인</button>
-        </form>
-        <div class="ui horizontal divider">
-          Or
+          {% endif %}
+
         </div>
-        <a class="fluid ui vertical animated green button" href="{{ url_for('signup') }}">
-          <div class="hidden content">
-            <i class="right arrow icon"></i>
-          </div>
-          <div class="visible content">
-            <span>회원가입</span>
-          </div>
-        </a>
+        <div class="field" id="user-password-field">
+          {{ form.password(placeholder="패스워드") }}
+          {% if form.errors['password'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['password'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <button type="submit" class="fluid ui primary button">로그인</button>
+      </form>
+      <div class="ui horizontal divider">
+        Or
       </div>
+      <a class="fluid ui vertical animated green button" href="{{ url_for('signup') }}">
+        <div class="hidden content">
+          <i class="right arrow icon"></i>
+        </div>
+        <div class="visible content">
+          <span>회원가입</span>
+        </div>
+      </a>
     </div>
   </div>
 {% endblock %}

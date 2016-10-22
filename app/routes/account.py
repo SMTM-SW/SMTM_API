@@ -22,6 +22,7 @@ def signup():
             name=form.name.data,
             nickname=form.nickname.data,
             email=form.email.data,
+            company=form.company.data
         )
         db.session.add(new_user)
         db.session.commit()

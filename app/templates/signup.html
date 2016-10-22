@@ -3,60 +3,96 @@
 {% set use_background_image = True %}
 
 {% block content %}
-  <div class="ui container">
-    <div class="ui three column centered stackable grid">
-      <div class="left aligned column" style="margin: 5em;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: .28571429rem;">
-        <a href="{{ config['HOST_CLIENT'] }}">
-          <img class="ui image" src="{{ url_for('static', filename='images/main_banner.png') }}"
-               style="margin: 2em 0em;"/>
-        </a>
+  <div class="ui three column centered stackable grid">
+    <div class="left aligned account signup column">
+      <a href="{{ config['HOST_CLIENT'] }}">
+        <img class="ui banner image" src="{{ url_for('static', filename='images/main_banner.png') }}"/>
+      </a>
 
-        <form action="{{ request.url }}" method="POST" class="ui form signin-form">
-          {{ form.csrf_token }}
-          <h4 class="ui dividing header">계정정보</h4>
-          <div class="field" id="user-id-field">
-            <label for="user-id-field">아이디</label>
-            <div class="ui small input">
-              {{ form.username(placeholder="아이디") }}
+      <form action="{{ request.url }}" method="POST" class="ui form signup-form{% if form.errors %} error{% endif %}">
+        {{ form.csrf_token }}
+        <h4 class="ui dividing header">계정정보</h4>
+        <div class="field {% if form.errors['username'] %} error{% endif %}" id="user-id-field">
+          <label for="user-id-field">아이디</label>
+          {{ form.username(placeholder="아이디를 입력해주세요", minlength="4") }}
+          {% if form.errors['username'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['username'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <div class="field" id="user-password-field">
-            <label for="user-password-field">패스워드</label>
-            <div class="ui small input">
-              {{ form.password(placeholder="비밀번호") }}
+          {% endif %}
+        </div>
+        <div class="field {% if form.errors['password'] %} error{% endif %}" id="user-password-field">
+          <label for="user-password-field">패스워드</label>
+          {{ form.password(placeholder="패스워드") }}
+          {% if form.errors['password'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['password'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <div class="field" id="user-confirm_password-field">
-            <label for="user-confirm_password-field">패스워드 재확인</label>
-            <div class="ui small input">
-              {{ form.confirm_password(placeholder="비밀번호 확인") }}
+          {% endif %}
+        </div>
+        <div class="field {% if form.errors['confirm_password'] %} error{% endif %}" id="user-confirm_password-field">
+          <label for="user-confirm_password-field">패스워드 재확인</label>
+          {{ form.confirm_password(placeholder="비밀번호 확인") }}
+          {% if form.errors['confirm_password'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['confirm_password'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <h4 class="ui dividing header">개인정보</h4>
+          {% endif %}
+        </div>
 
-          <div class="field" id="user-name-field">
-            <label for="user-name-field">이름</label>
-            <div class="ui small input">
-              {{ form.name(placeholder="이름") }}
+        <h4 class="ui dividing header">개인정보</h4>
+        <div class="field {% if form.errors['name'] %} error{% endif %}" id="user-name-field">
+          <label for="user-name-field">이름</label>
+          {{ form.name(placeholder="이름") }}
+          {% if form.errors['name'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['name'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <div class="field" id="user-nickname-field">
-            <label for="user-nickname-field">닉네임</label>
-            <div class="ui small input">
-              {{ form.nickname(placeholder="닉네임") }}
+          {% endif %}
+        </div>
+        <div class="field {% if form.errors['nickname'] %} error{% endif %}" id="user-nickname-field">
+          <label for="user-nickname-field">닉네임</label>
+          {{ form.nickname(placeholder="닉네임") }}
+          {% if form.errors['nickname'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['nickname'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <div class="field" id="user-email-field">
-            <label for="user-email-field">이메일</label>
-            <div class="ui small input">
-              {{ form.email(placeholder="이메일") }}
+          {% endif %}
+        </div>
+        <div class="field {% if form.errors['email'] %} error{% endif %}" id="user-email-field">
+          <label for="user-email-field">이메일</label>
+          {{ form.email(placeholder="이메일") }}
+          {% if form.errors['email'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['email'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
             </div>
-          </div>
-          <button type="submit" class="fluid ui primary button">회원가입</button>
-        </form>
-      </div>
+          {% endif %}
+        </div>
+        <div class="field {% if form.errors['company'] %} error{% endif %}" id="user-company-field">
+          <label for="user-company-field">소속</label>
+          {{ form.company(placeholder="소속") }}
+          {% if form.errors['company'] %}
+            <div class="ui user error message">
+              {% for error in form.errors['company'] %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <button type="submit" class="fluid ui primary button">회원가입</button>
+      </form>
     </div>
   </div>
 {% endblock %}

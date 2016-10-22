@@ -17,7 +17,7 @@ class UserModel(db.Model):
     }
 
     gender_enums = ('male', 'female')
-    type_enums = ('unregistered', 'registered', 'manager', 'withdrawal')
+    type_enums = ('unregistered', 'free', 'pro_monthly', 'pro_on-demand', 'enterprise')
 
     id = db.Column(
         BIGINT(20, unsigned=True),
@@ -46,6 +46,10 @@ class UserModel(db.Model):
     nickname = db.Column(
         db.String(80),
         unique=True
+    )
+    company = db.Column(
+        db.String(80),
+        nullable=False
     )
     email = db.Column(
         db.String(80),

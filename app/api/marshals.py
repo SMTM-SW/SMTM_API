@@ -11,8 +11,10 @@ user_field = {
     'nickname': fields.String(attribute='nickname'),
     'name': fields.String(attribute='name'),
     'gender': fields.String(attribute='gender'),
+    'company': fields.String(attribute='company'),
     'type': fields.String(attribute='type'),
-    'email': fields.String(attribute='email')
+    'email': fields.String(attribute='email'),
+    'join': fields.String(attribute='created_date')
 }
 
 document_field = {
