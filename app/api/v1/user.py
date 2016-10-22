@@ -51,8 +51,6 @@ class Account(Resource):
         request_user = request.oauth.user
         request_body = request.get_json()
 
-        # TODO : 로직이 좀 이상함. 프로필 수정에는 verify를 하고 넘어오고 비밀번호 변경시에는 같이 비교함
-
         if request_body['new_password']:
             user = UserModel.query.filter_by(id=request_user.id).first()
 
@@ -67,21 +65,35 @@ class Account(Resource):
             else:
                 user.password=bcrypt.generate_password_hash(request_body['new_password'])
 
-        elif not request_body['nickname']:
-            # TODO:사용자가 닉네임을 수정하지 않고 그냥 보내는 경우에는?
-            # TODO:닉네임이 중복될 경우에는?
-            is_nickname = UserModel.query.filter_by(nickname=request_body['nickname']).first()
+        else:
+            other_user = UserModel.query.filter_by(nickname=request_body['nickname']).first()
+
+            if other_user:
+                if request_user.id != other_user.id:
+                    return {
+                        'success': False,
+                        'messages': [
+                            '이미 존재하는 닉네임입니다!'
+                        ]
+                    }
 
             query = UserModel.query.filter_by(id=request_user.id)
             user = query.first()
 
             user.name = request_body['name']
             user.nickname = request_body['nickname']
-            user.gender = request_body['gender']
+            user.email = request_body['email']
+            user.company = request_body['company']
+            # user.gender = request_body['gender']
 
         db.session.commit()
 
-        return user
+        return {
+            'success': True,
+            'messages': [
+                '회원 정보가 정상적으로 수정되었습니다.'
+            ]
+        }
 
     @oauth_provider.require_oauth('profile')
     def delete(self):
