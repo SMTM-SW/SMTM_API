@@ -27,6 +27,7 @@ from app.models import *
 for x in ['DEFAULT_DATABASE', 'OAUTH_DATABASE']:
     db.create_all(bind=app.config[x])
 
+
 from flask_restful import Api
 
 api_root = Api(app)
