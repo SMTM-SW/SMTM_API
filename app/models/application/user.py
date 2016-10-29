@@ -17,7 +17,7 @@ class UserModel(db.Model):
     }
 
     gender_enums = ('male', 'female')
-    type_enums = ('unregistered', 'free', 'pro_monthly', 'pro_on-demand', 'enterprise')
+    type_enums = ('unregistered', 'free', 'starter', 'standard', 'professional', 'manager')
 
     id = db.Column(
         BIGINT(20, unsigned=True),
