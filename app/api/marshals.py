@@ -21,11 +21,17 @@ document_field = {
     "id": fields.Integer(attribute='id'),
     "title": fields.String(attribute='title'),
     "content": fields.String(attribute="content"),
+    'board_name': fields.String(attribute='board_name'),
+    'board_title': fields.String(attribute='board_title'),
     "read_count": fields.Integer(attribute="read_count"),
     "like_count": fields.Integer(attribute="like_count"),
     "user_id": fields.Integer(attribute="user_id"),
     "username": fields.String(attribute="username"),
     "created_date": fields.String(attribute="created_date")
+}
+
+document_list_fields = {
+    'items': fields.Nested(document_field)
 }
 
 project_field = {

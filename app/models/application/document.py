@@ -16,6 +16,8 @@ class DocumentModel(db.Model):
         'extend_existing': True
     }
 
+    status_enum = ('public', 'block', 'hidden')
+
     id = db.Column(
         BIGINT(20, unsigned=True),
         primary_key=True,
@@ -35,7 +37,9 @@ class DocumentModel(db.Model):
     )
     read_count = db.Column(
         INTEGER(unsigned=True),
-        default=0
+        nullable=False,
+        default=0,
+        server_default='0'
     )
     like_count = db.Column(
         INTEGER(unsigned=True),
@@ -46,6 +50,12 @@ class DocumentModel(db.Model):
     user_id = db.Column(
         BIGINT(20, unsigned=True),
         db.ForeignKey('.'.join((__bind_key__, 'users.id'))),
+        nullable=False
+    )
+    status = db.Column(
+        db.Enum(*status_enum),
+        default=status_enum[0],
+        server_default=status_enum[0],
         nullable=False
     )
     created_date = db.Column(
