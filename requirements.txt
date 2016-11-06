@@ -16,7 +16,8 @@ infinity==1.4
 intervals==0.7.1
 itsdangerous==0.24
 Jinja2==2.8
-keyring==9.3.1
+keyring==9.0
+keyrings.alt==1.1.1
 MarkupSafe==0.23
 oauthlib==1.1.2
 paramiko==1.17.2
