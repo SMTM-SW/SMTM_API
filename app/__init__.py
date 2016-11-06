@@ -12,6 +12,8 @@ app.config.from_object('config')
 
 bcrypt = Bcrypt(app)
 
+# if keyring backend are not provided, use with 'keyrings.alt'.
+# 'keyrings.alt' will ask for a encrypted keyring password, set with smtm_default pw.
 yagmail.register(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
 
 oauth_provider = OAuth2Provider(app)

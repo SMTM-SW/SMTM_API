@@ -8,12 +8,13 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # yagmail
 MAIL_USERNAME = os.environ['MAIL_USERNAME']
-MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
+MAIL_PASSWORD \
+    = os.environ['MAIL_PASSWORD']
 
 # db
 DATABASE_HOST = 'localhost:3306'
-DATABASE_USERNAME = 'root'
-DATABASE_PASSWORD = ''
+DATABASE_USERNAME = 'smtm'
+DATABASE_PASSWORD = 'kbv@p!23ay'
 DEFAULT_DATABASE = 'smtm_application'
 OAUTH_DATABASE = 'smtm_oauth'
 
