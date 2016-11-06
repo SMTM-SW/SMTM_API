@@ -4,76 +4,105 @@ from flask_restful import Resource, marshal_with, reqparse
 from sqlalchemy.orm.exc import NoResultFound
 
 from app import api_root, db, oauth_provider
-from app.api.exceptions import NotFoundError
-from app.api.marshals import document_field
+from app.api.exceptions import NotFoundError, UnauthorizedError
+from app.api.marshals import document_field, document_list_fields
 from app.models.application.board import BoardModel
 from app.models.application.document import DocumentModel
 from app.util.query.document import getDocumentQuery, getDocumentListQuery
 
 
-@api_root.resource('/v1/document/<int:document_id>')
+@api_root.resource('/v1/documents/<int:document_id>')
 class Document(Resource):
-    @oauth_provider.require_oauth('profile')
     @marshal_with(document_field)
     def get(self,document_id):
+        try:
+            result = getDocumentQuery(document_id).one()
+        except NoResultFound:
+            raise NotFoundError
 
-        document = DocumentModel.query.filter_by(id=document_id).first()
-
+        document = Document.get_document(document_id)
         document.read_count += 1
         db.session.commit()
 
-        query = getDocumentQuery(document_id)
-        result = query.first()
-
-        output = dict(zip(result.keys(), result))
-
-        return output
+        document = dict(zip(result.keys(), result))
+        return document
 
     @oauth_provider.require_oauth('profile')
     def put(self,document_id):
+        request_user = request.oauth.user
+        request_body = request.get_json()
 
-        document = DocumentModel.query.filter_by(id=document_id).first()
+        document = Document.get_document(document_id)
 
-        query = getDocumentQuery(document_id)
-        result = query.first()
+        if document.user.id != request_user.id:
+            raise UnauthorizedError
 
-        document.like_count += 1
+        document.title = request_body['title']
+        document.content = request_body['content']
+
         db.session.commit()
 
         return {
             'success': True,
             'messages': [
-                '성공적으로 반영되었습니다.'
+                '글이 성공적으로 수정되었습니다.'
             ]
         }
 
-
-@api_root.resource('/v1/document/<string:board_name>')
-class DocumentList(Resource):
     @oauth_provider.require_oauth('profile')
-    @marshal_with(document_field)
+    def delete(self, document_id):
+        document = Document.get_document(document_id)
+
+        document.status = 'hidden'
+        db.session.commit()
+
+        return {
+            'success': True,
+            'messages': [
+                '글이 성공적으로 삭제되었습니다.'
+            ]
+        }
+
+    @staticmethod
+    def get_document(document_id):
+        try:
+            document = DocumentModel.query. \
+                filter(DocumentModel.id == document_id). \
+                filter(DocumentModel.status == 'public'). \
+                one()
+        except NoResultFound:
+            raise NotFoundError
+
+        return document
+
+
+@api_root.resource('/v1/boards/<string:board_name>')
+class DocumentList(Resource):
+    @marshal_with(document_list_fields)
     def get(self, board_name):
 
         target_board = DocumentList.get_target_board(board_name)
 
         param_parser = reqparse.RequestParser()
         param_parser.add_argument('maxResult', type=int, default=10)
+        param_parser.add_argument('resultOffset', type=int, default=0)
         args = param_parser.parse_args()
 
-        # TODO : 쿼리 정리좀 해줘야 함.
-        query = getDocumentListQuery().filter_by(board_id=target_board.id)
-        result = query \
-            .order_by(DocumentModel.id.desc()) \
-            .limit(args.maxResult) \
-            .all()
+        query = getDocumentListQuery(target_board)
+        result = query. \
+            order_by(DocumentModel.id.desc()). \
+            offset(args.resultOffset). \
+            limit(args.maxResult). \
+            all()
 
         output = list()
         for d in result:
             data = dict(zip(d.keys(), d))
             output.append(data)
 
-        return output
-
+        return {
+            'items': output
+        }
 
     @oauth_provider.require_oauth('profile')
     def post(self,board_name):
@@ -97,7 +126,7 @@ class DocumentList(Resource):
         return {
             'success': True,
             'messages': [
-                '정상적으로 작성되었습니다.'
+                '글이 정상적으로 작성되었습니다.'
             ]
         }
 
@@ -106,7 +135,7 @@ class DocumentList(Resource):
     def get_target_board(board_name):
         try:
             return BoardModel.query. \
-                with_entities(BoardModel.id, BoardModel.is_anonymous). \
+                with_entities(BoardModel.id). \
                 filter_by(name=board_name). \
                 one()
 
