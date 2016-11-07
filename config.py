@@ -8,8 +8,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # yagmail
 MAIL_USERNAME = os.environ['MAIL_USERNAME']
-MAIL_PASSWORD \
-    = os.environ['MAIL_PASSWORD']
+MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
 
 # db
 DATABASE_HOST = 'localhost:3306'

@@ -7,7 +7,6 @@ from app.models.application.board import BoardModel
 
 @api_root.resource('/v1/board')
 class Board(Resource):
-    @oauth_provider.require_oauth('manage_site')
     def get(self):
         boards = BoardModel.query.all()
         board_list = []
@@ -19,7 +18,7 @@ class Board(Resource):
             })
 
         return {
-            'data': board_list
+            'items': board_list
         }
 
     @oauth_provider.require_oauth('manage_site')
