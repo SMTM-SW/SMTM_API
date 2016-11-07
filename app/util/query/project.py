@@ -8,7 +8,6 @@ def getProjectListQuery(request_user_id):
                       ProjectModel.title,
                       ProjectModel.description,
                       ProjectModel.target_count,
-                      ProjectModel.interest_id,
                       ProjectModel.contact_type,
                       ProjectModel.status,
                       ProjectModel.user_id,

@@ -43,9 +43,6 @@ class ProjectModel(db.Model):
         default=0,
         server_default='0'
     )
-    interest_id = db.Column(
-        INTEGER(unsigned=True)
-    )
     status = db.Column(
         db.Enum(*status_enum),
         default=status_enum[0],
@@ -58,7 +55,6 @@ class ProjectModel(db.Model):
         server_default=contact_type_enum[0],
         nullable=False
     )
-
     is_activated = db.Column(
         db.Boolean,
         default=True,
