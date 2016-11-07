@@ -8,7 +8,7 @@ from app.api.exceptions import NotFoundError, UnauthorizedError
 from app.api.marshals import document_field, document_list_fields
 from app.models.application.board import BoardModel
 from app.models.application.document import DocumentModel
-from app.util.query.document import getDocumentQuery, getDocumentListQuery
+from app.util.query.document import getDocumentQuery, getDocumentListQuery, getDocumentBaseQuery
 
 
 @api_root.resource('/v1/documents/<int:document_id>')
@@ -74,6 +74,32 @@ class Document(Resource):
             raise NotFoundError
 
         return document
+
+
+@api_root.resource('/v1/boards')
+class DocumentRecent(Resource):
+    @marshal_with(document_list_fields)
+    def get(self):
+        param_parser = reqparse.RequestParser()
+        param_parser.add_argument('maxResult', type=int, default=10)
+        param_parser.add_argument('resultOffset', type=int, default=0)
+        args = param_parser.parse_args()
+
+        query = getDocumentBaseQuery()
+        result = query. \
+            order_by(DocumentModel.id.desc()). \
+            offset(args.resultOffset). \
+            limit(args.maxResult). \
+            all()
+
+        output = list()
+        for d in result:
+            data = dict(zip(d.keys(), d))
+            output.append(data)
+
+        return {
+            'items': output
+        }
 
 
 @api_root.resource('/v1/boards/<string:board_name>')
