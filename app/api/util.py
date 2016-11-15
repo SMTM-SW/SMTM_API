@@ -7,3 +7,10 @@ def check_content_type():
 
     elif 'application/x-www-form-urlencoded' in request.content_type:
         return request.form
+
+
+def check_str(dict, key):
+    try:
+        return dict[key] if dict[key] else None
+    except:
+        return None
