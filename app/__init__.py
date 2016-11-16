@@ -1,7 +1,6 @@
 import logging
 import sys
 
-import yagmail
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_oauthlib.provider import OAuth2Provider
@@ -14,8 +13,7 @@ bcrypt = Bcrypt(app)
 
 # if keyring backend are not provided, use with 'keyrings.alt'.
 # 'keyrings.alt' will ask for a encrypted keyring password, set with smtm_default pw.
-yagmail.register(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
-
+# yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[form.email.data], subject=subject, contents=body)
 oauth_provider = OAuth2Provider(app)
 
 oauth_logger = logging.getLogger('oauthlib')
