@@ -12,7 +12,6 @@ from app.util.query.target import getProjectTargetQuery
 
 @api_root.resource('/v1/project/<int:project_id>/target')
 class Target(Resource):
-    @oauth_provider.require_oauth('profile')
     @marshal_with(project_target_list_field)
     def get(self, project_id):
         query = getProjectTargetQuery(project_id)
