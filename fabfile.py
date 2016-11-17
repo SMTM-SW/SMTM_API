@@ -1,16 +1,19 @@
 from fabric.api import *
 
-env.hosts = ['45.76.105.132']
-env.user = 'root'
-env.password = ',fC1y!2ar.zzV$U='
+# add SSH Config at Local Host File
+env.use_ssh_config = True
 env.activate = 'source venv/bin/activate && source .env'
 
+drop_database = '"drop database smtm_oauth;drop database smtm_application;"'
+create_database = '"create database smtm_application;create database smtm_oauth;"'
 
 def install():
     run('rm -rf JongroDist')
     run('git clone https://github.com/DanielTimLee/JongroDist')
     with cd('~/JongroDist/'):
         run('virtualenv --python=python3 venv')
+        run('mysql -uroot -p -e ' + drop_database)
+        run('mysql -uroot -p -e ' + create_database)
         with prefix(env.activate):
             run('pip install -r requirements.txt')
             run('bower install --allow-root')

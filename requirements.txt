@@ -21,6 +21,7 @@ keyrings.alt==1.1.1
 MarkupSafe==0.23
 oauthlib==1.1.2
 paramiko==1.17.2
+pkg-resources==0.0.0
 pycrypto==2.6.1
 PyMySQL==0.7.2
 python-bcrypt==0.3.1
@@ -31,6 +32,7 @@ requests-oauthlib==0.6.2
 six==1.10.0
 SQLAlchemy==1.0.12
 SQLAlchemy-Utils==0.32.5
+uWSGI==2.0.14
 validators==0.10
 Werkzeug==0.11.10
 WTForms==2.1
