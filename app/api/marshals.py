@@ -44,3 +44,19 @@ project_field = {
 project_list_fields = {
     'items': fields.Nested(project_field)
 }
+
+project_target_field = {
+    "project_id": fields.String(attribute='project_id'),
+    "target_id": fields.String(attribute='target_id'),
+    "user_name": fields.String(attribute="name"),
+    "user_id": fields.String(attribute="user_id"),
+    "user_nickname": fields.String(attribute="nickname"),
+    "user_phone": fields.String(attribute="phone"),
+    "user_email": fields.String(attribute="email"),
+    "user_birthday": fields.String(attribute="birthday"),
+    "user_gender": fields.String(attribute="gender"),
+}
+
+project_target_list_field = {
+    'items': fields.Nested(project_target_field)
+}
