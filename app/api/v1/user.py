@@ -46,12 +46,16 @@ class Account(Resource):
         return item
 
     @oauth_provider.require_oauth('profile')
-    @marshal_with(user_field)
     def put(self):
         request_user = request.oauth.user
         request_body = request.get_json()
 
-        if request_body['new_password']:
+        try:
+            new_password = request_body['new_password']
+        except:
+            new_password = None
+
+        if new_password:
             user = UserModel.query.filter_by(id=request_user.id).first()
 
             if not user.is_valid_password(request_body['password']):
