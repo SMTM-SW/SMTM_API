@@ -2,11 +2,10 @@ import random
 import string
 
 import arrow
-from flask import request, render_template
+from flask import request, render_template, flash
 from flask_restful import Resource
 
 from app import app, oauth_provider, api_root, db
-from app.api.exceptions import NotFoundError
 from app.api.util import check_content_type
 from app.forms.account import SignInForm
 from app.models.application.user import UserModel
@@ -46,18 +45,16 @@ def authorize(*args, **kwargs):
         first()
 
     if user is None:
-        raise NotFoundError
+        flash('회원 정보를 찾을 수 없습니다.', 'error')
+        return render_template('signin.html', form=form)
 
     elif not (user.is_valid_password(req_password)):
-        raise NotFoundError
+        flash('비밀번호가 올바르지 않습니다.', 'error')
+        return render_template('signin.html', form=form)
 
     elif (user.type == 'withdrawal'):
-        return {
-                   'success': False,
-                   'messages': [
-                       '이미 탈퇴한 회원입니다..'
-                   ]
-               }, 404
+        flash('이미 탈퇴한 회원입니다.', 'error')
+        return render_template('signin.html', form=form)
 
     else:
         return True
