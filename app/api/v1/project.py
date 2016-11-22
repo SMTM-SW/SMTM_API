@@ -5,6 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from app import api_root, db, oauth_provider
 from app.api.exceptions import NotFoundError
 from app.api.marshals import project_list_fields, project_field
+from app.models.application.notification import NotificationModel
 from app.models.application.project import ProjectModel
 from app.util.query.project import getProjectListQuery, getProjectQuery, modProjectQuery
 
@@ -16,7 +17,8 @@ class Project_manage(Resource):
     def get(self):
         request_user = request.oauth.user
 
-        projects = getProjectListQuery(request_user_id=request_user.id).all()
+        projects = getProjectListQuery(request_user_id=request_user.id). \
+            order_by(ProjectModel.id.desc()).all()
 
         output = list()
         for project in projects:
@@ -39,6 +41,15 @@ class Project_manage(Resource):
         )
 
         db.session.add(new_project)
+        db.session.flush()
+
+        new_notification = NotificationModel(
+            content='프로젝트 {0} 가 등록되었습니다.'.format(new_project.title),
+            extra_data=['타겟을 추가해 주세요!'],
+            target_id=new_project.id,
+            user_id=request_user.id,
+        )
+        db.session.add(new_notification)
         db.session.commit()
 
         return {

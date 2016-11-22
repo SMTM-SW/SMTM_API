@@ -5,5 +5,6 @@ __all__ = [
     'project',
     'project_target',
     'project_keyword',
+    'notification',
     'document',
 ]

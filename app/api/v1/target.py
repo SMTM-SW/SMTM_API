@@ -5,6 +5,7 @@ from app import api_root, oauth_provider, db
 from app.api.exceptions import NotFoundError
 from app.api.marshals import project_target_list_field
 from app.api.util import check_str
+from app.models.application.notification import NotificationModel
 from app.models.application.project import ProjectModel
 from app.models.application.project_target import ProjectTargetModel
 from app.models.application.target import TargetModel
@@ -32,6 +33,7 @@ class Target(Resource):
 
     @oauth_provider.require_oauth('profile')
     def post(self, project_id):
+        request_user = request.oauth.user
         request_body = request.get_json()
         target = request_body['target']
 
@@ -63,7 +65,15 @@ class Target(Resource):
                 target_id=new_target.id
             )
             db.session.add(new_project_target)
-            db.session.commit()
+
+        new_notification = NotificationModel(
+            content='{0} 에 타겟이 등록됬습니다.'.format(project.title),
+            extra_data=['분석 시작 버튼을 눌러주세요!'],
+            target_id=project_id,
+            user_id=request_user.id,
+        )
+        db.session.add(new_notification)
+        db.session.commit()
 
         return {
             'success': True,

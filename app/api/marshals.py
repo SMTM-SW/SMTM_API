@@ -60,3 +60,16 @@ project_target_field = {
 project_target_list_field = {
     'items': fields.Nested(project_target_field)
 }
+
+notification_fields = {
+    'id': fields.Integer(attribute='id'),
+    'content': fields.String(attribute='content'),
+    'extra_data': fields.String(attribute='extra_data'),
+    'target_id': fields.String(attribute='target_id'),
+    'status': fields.String(attribute='status'),
+    'created_date': fields.String(attribute="created_date"),
+}
+
+notification_list_fields = {
+    'items': fields.Nested(notification_fields)
+}
