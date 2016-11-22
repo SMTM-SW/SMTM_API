@@ -102,11 +102,11 @@ class RequestAPI:
                 abort(response.status_code)
 
 
-class RequestAnalyzeAPI(RequestAPI):
+class RequestCrawlerAPI(RequestAPI):
     _analyze_api_endpoint = 'crawler'
 
     @classmethod
-    def analyze_init(cls, body):
+    def crawler_init(cls, body):
         response_data, status_code = RequestAPI.http_post("{0}/".format(cls._analyze_api_endpoint),
                                                           payload=body)
         return response_data
