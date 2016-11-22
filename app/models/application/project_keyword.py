@@ -1,7 +1,6 @@
 import datetime
 
-from sqlalchemy import INTEGER
-from sqlalchemy.dialects.mysql import BIGINT, TIMESTAMP
+from sqlalchemy.dialects.mysql import BIGINT, TIMESTAMP, INTEGER
 from sqlalchemy.sql.expression import text
 
 from app import app, db
