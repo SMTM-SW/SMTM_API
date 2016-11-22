@@ -55,6 +55,18 @@ class ProjectModel(db.Model):
         server_default=contact_type_enum[0],
         nullable=False
     )
+    valid_customer = db.Column(
+        INTEGER(unsigned=True),
+        nullable=False,
+        default=0,
+        server_default='0'
+    )
+    keyword_num = db.Column(
+        INTEGER(unsigned=True),
+        nullable=False,
+        default=0,
+        server_default='0'
+    )
     is_activated = db.Column(
         db.Boolean,
         default=True,
