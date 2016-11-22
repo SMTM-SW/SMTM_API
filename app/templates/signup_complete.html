@@ -6,7 +6,8 @@
     <div class="ui three column stackable centered grid">
       <div class="account column">
         <a href="{{ config['HOST_CLIENT'] }}">
-          <img class="ui banner image" src="{{ url_for('static', filename='images/main_banner.png') }}"/>
+          <img class="ui banner image" src="{{ config['HOST_CLIENT']+'/static/images/logo_w.png' }}"
+               style="margin:3em auto;"/>
         </a>
 
         <h3 class="ui center aligned header">회원가입을 축하합니다</h3>

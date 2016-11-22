@@ -51,8 +51,8 @@ class ProjectModel(db.Model):
     )
     contact_type = db.Column(
         db.Enum(*contact_type_enum),
-        default=contact_type_enum[0],
-        server_default=contact_type_enum[0],
+        default=contact_type_enum[1],
+        server_default=contact_type_enum[1],
         nullable=False
     )
     valid_customer = db.Column(

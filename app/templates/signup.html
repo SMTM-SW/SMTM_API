@@ -6,7 +6,8 @@
   <div class="ui three column centered stackable grid">
     <div class="left aligned account signup column">
       <a href="{{ config['HOST_CLIENT'] }}">
-        <img class="ui banner image" src="{{ url_for('static', filename='images/main_banner.png') }}"/>
+        <img class="ui banner image" src="{{ config['HOST_CLIENT']+'/static/images/logo_w.png' }}"
+             style="margin:3em auto;"/>
       </a>
 
       <form action="{{ request.url }}" method="POST" class="ui form signup-form{% if form.errors %} error{% endif %}">

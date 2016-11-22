@@ -58,7 +58,7 @@ class Analyze(Resource):
         body = """<div style='background-color:#EEEEEE ;width:540px;background-image:-moz-linear-gradient(top left,#53b2de 0%,#EEEEEE 50%);\
                 font-family:'Lucida Grande','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:18px;color:#555555 '> \
                 <div style='width:500px;padding:20px 20px;margin: 0em auto'> <div style='margin: 20px 175px'> \
-                <img src='https://s3-ap-northeast-1.amazonaws.com/yourssu-resource/images/logo.png' width='150' height='70' alt='yourssu logo'> </div> \
+                          <img class="ui banner image" src="http://lookalike.co.kr/static/images/logo_w.png" style="margin:3em auto;"/> </div> \
                 <div style='background-color:#fff;border-radius:2px;padding:40px'> <div style='width:50%;min-height:20%;max-width:300px'> </div> \
                 <div style='width:50%;min-height:20%;max-width:300px'> </div> <span style='font-size:18px;line-height:18px;color:#000000 ;font-weight:normal'> \
                 Lookalike 앱 분석이 시작되었습니다. </span> <br> <br> 현재 분석이 진행중입니다. 분석이 완료되면 이메일이 다시 발송됩니다. <br> <br> <br> \
@@ -114,7 +114,7 @@ class Analyze(Resource):
         body = """<div style='background-color:#EEEEEE ;width:540px;background-image:-moz-linear-gradient(top left,#53b2de 0%,#EEEEEE 50%);\
                 font-family:'Lucida Grande','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:18px;color:#555555 '> \
                 <div style='width:500px;padding:20px 20px;margin: 0em auto'> <div style='margin: 20px 175px'> \
-                <img src='https://s3-ap-northeast-1.amazonaws.com/yourssu-resource/images/logo.png' width='150' height='70' alt='yourssu logo'> </div> \
+                <img class="ui banner image" src="http://lookalike.co.kr/static/images/logo_w.png" style="margin:3em auto;"/>  </div> \
                 <div style='background-color:#fff;border-radius:2px;padding:40px'> <div style='width:50%;min-height:20%;max-width:300px'> </div> \
                 <div style='width:50%;min-height:20%;max-width:300px'> </div> <span style='font-size:18px;line-height:18px;color:#000000 ;font-weight:normal'> \
                 Lookalike 앱 분석이 완료되었습니다. </span> <br> <br> 분석이 완료되었습니다. 홈페이지로 이동해서 분석 결과를 확인하세요. <br> <br> <br> \
