@@ -2,6 +2,7 @@ import os
 
 HOST_API = os.environ['HOST_API']
 HOST_CLIENT = os.environ['HOST_CLIENT']
+HOST_CRAWLER = os.environ['HOST_CRAWLER']
 
 # flask
 SECRET_KEY = os.environ['SECRET_KEY']
