@@ -5,6 +5,7 @@ from app import api_root, oauth_provider, db
 from app.api.exceptions import NotFoundError
 from app.api.marshals import project_target_list_field
 from app.api.util import check_str
+from app.models.application.project import ProjectModel
 from app.models.application.project_target import ProjectTargetModel
 from app.models.application.target import TargetModel
 from app.util.query.target import getProjectTargetQuery
@@ -39,6 +40,9 @@ class Target(Resource):
             for i in check_duplicate:
                 i.is_activated = 0
                 db.session.commit()
+
+        project = ProjectModel.query.filter_by(id=project_id).one()
+        project.target_count = len(target)
 
         for i in target:
             new_target = TargetModel(
