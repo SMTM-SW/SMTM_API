@@ -2,9 +2,10 @@ from flask import request
 from flask_restful import Resource
 from yagmail import yagmail
 
-from app import api_root, db, app
-from app.api.api_request import RequestAnalyzeAPI
+from app import api_root, db, app, oauth_provider
+from app.api.api_request import RequestCrawlerAPI
 from app.api.exceptions import NotFoundError
+from app.models.application.notification import NotificationModel
 from app.models.application.project import ProjectModel
 from app.models.application.project_keyword import ProjectKeywordModel
 from app.models.application.user import UserModel
@@ -13,7 +14,9 @@ from app.util.query.target import getProjectTargetQuery
 
 @api_root.resource('/v1/project/<int:project_id>/analyze')
 class Analyze(Resource):
+    @oauth_provider.require_oauth('profile')
     def get(self, project_id):
+        request_user = request.oauth.user
         query = getProjectTargetQuery(project_id)
         targets = query.all()
 
@@ -30,7 +33,16 @@ class Analyze(Resource):
             'project_id': project_id
         }
 
-        response_data = RequestAnalyzeAPI.analyze_init(request_body)
+        try:
+            response_data = RequestCrawlerAPI.crawler_init(request_body)
+        except:
+            return {
+                'success': False,
+                'messages': [
+                    '크롤러 서버에 에러가 발생하였습니다.'
+                ]
+            }
+
         if not response_data['success']:
             return {
                 'success': False,
@@ -41,7 +53,6 @@ class Analyze(Resource):
 
         project = ProjectModel.query.filter_by(id=project_id).one()
         project.status = 'working'
-        db.session.commit()
 
         subject = "Lookalike 앱 분석이 시작되었습니다."
         body = """<div style='background-color:#EEEEEE ;width:540px;background-image:-moz-linear-gradient(top left,#53b2de 0%,#EEEEEE 50%);\
@@ -65,6 +76,14 @@ class Analyze(Resource):
         user = UserModel.query.filter_by(id=project.user_id).one()
         yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[user.email], subject=subject,
                                                                                     contents=body)
+        new_notification = NotificationModel(
+            content='{0}의 분석이 시작되었습니다.'.format(project.title),
+            extra_data=['분석이 완료되면 이메일이 발송됩니다!'],
+            target_id=project_id,
+            user_id=request_user.id,
+        )
+        db.session.add(new_notification)
+        db.session.commit()
 
         return {
             'success': True,
@@ -88,11 +107,8 @@ class Analyze(Resource):
             )
             db.session.add(new_keyword)
 
-        db.session.commit()
-
         project = ProjectModel.query.filter_by(id=project_id).one()
         project.status = 'done'
-        db.session.commit()
 
         subject = "Lookalike 앱 분석이 완료되었습니다."
         body = """<div style='background-color:#EEEEEE ;width:540px;background-image:-moz-linear-gradient(top left,#53b2de 0%,#EEEEEE 50%);\
@@ -116,6 +132,15 @@ class Analyze(Resource):
         user = UserModel.query.filter_by(id=project.user_id).one()
         yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[user.email], subject=subject,
                                                                                     contents=body)
+
+        new_notification = NotificationModel(
+            content='{0}의 분석이 완료되었습니다.'.format(project.title),
+            extra_data=['프로젝트 페이지로 이동해 분석 결과를 확인하세요!'],
+            target_id=project_id,
+            user_id=project.user_id,
+        )
+        db.session.add(new_notification)
+        db.session.commit()
 
         return {
             'success': True,
