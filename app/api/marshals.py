@@ -61,7 +61,7 @@ project_target_list_field = {
     'items': fields.Nested(project_target_field)
 }
 
-notification_fields = {
+notification_field = {
     'id': fields.Integer(attribute='id'),
     'content': fields.String(attribute='content'),
     'extra_data': fields.String(attribute='extra_data'),
@@ -71,5 +71,24 @@ notification_fields = {
 }
 
 notification_list_fields = {
-    'items': fields.Nested(notification_fields)
+    'items': fields.Nested(notification_field)
+}
+
+keyword_field = {
+    'ranking': fields.String(attribute='ranking'),
+    'keyword': fields.String(attribute='keyword'),
+    'lookalike_score': fields.String(attribute='lookalike_score'),
+    'found_target': fields.String(attribute='found_target'),
+    'advertise_rage': fields.String(attribute='advertise_range')
+}
+
+demo_field = {
+    'keyword': fields.String(attribute='keyword'),
+    'keyword_data': fields.String(attribute='keyword_data'),
+}
+
+analyze_result_fields = {
+    'project': fields.Nested(project_field),
+    'keyword': fields.Nested(keyword_field),
+    'demo': fields.Nested(demo_field)
 }

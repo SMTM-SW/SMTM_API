@@ -4,4 +4,5 @@ __all__ = ['user',
            'target',
            'analyze',
            'notification',
+           'result',
            'document']
