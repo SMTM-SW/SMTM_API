@@ -29,7 +29,7 @@ pytz==2016.4
 requests==2.10.0
 requests-oauthlib==0.6.2
 six==1.10.0
-SQLAlchemy==1.0.12
+SQLAlchemy==1.1.0
 SQLAlchemy-Utils==0.32.5
 uWSGI==2.0.14
 validators==0.10
