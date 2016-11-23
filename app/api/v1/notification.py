@@ -4,7 +4,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from app import api_root, db, oauth_provider
 from app.api.exceptions import NotFoundError, UnauthorizedError, ConflictError
-from app.api.marshals import notification_fields, notification_list_fields
+from app.api.marshals import notification_field, notification_list_fields
 from app.models.application.notification import NotificationModel
 from app.util.query.notification import getNotificationListQuery
 
@@ -34,7 +34,7 @@ class NotificationList(Resource):
 @api_root.resource('/v1/notifications/<int:notification_id>')
 class Notification(Resource):
     @oauth_provider.require_oauth('profile')
-    @marshal_with(notification_fields, envelope='item')
+    @marshal_with(notification_field, envelope='item')
     def get(self, notification_id):
         request_user = request.oauth.user
 
