@@ -1,6 +1,5 @@
 from flask import request
 from flask_restful import Resource
-from yagmail import yagmail
 
 from app import api_root, db, app, oauth_provider
 from app.api.api_request import RequestCrawlerAPI
@@ -74,8 +73,8 @@ class Analyze(Resource):
         body = body.encode('utf-8').decode('utf-8')
 
         user = UserModel.query.filter_by(id=project.user_id).one()
-        yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[user.email], subject=subject,
-                                                                                    contents=body)
+        # yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[user.email], subject=subject, contents=body)
+
         new_notification = NotificationModel(
             content='{0}의 분석이 시작되었습니다.'.format(project.title),
             extra_data=['분석이 완료되면 이메일이 발송됩니다!'],
@@ -95,20 +94,23 @@ class Analyze(Resource):
     def post(self, project_id):
         request_body = request.get_json()
 
-        result = request_body['result']
-        for i in result:
+        report = request_body['report']
+        valid_count = request_body['vaild_user_count']
+        for idx, i in enumerate(report):
             new_keyword = ProjectKeywordModel(
                 project_id=project_id,
-                ranking=i['ranking'],
-                keyword=i['keyword'],
-                lookalike_score=i['lookalike_score'],
-                found_target=i['found_target'],
-                advertise_range=i['advertise_range']
+                ranking=idx + 1,
+                keyword=i[0],
+                lookalike_score=int(i[1]),
+                found_target=i[2],
+                advertise_range=i[3]
             )
             db.session.add(new_keyword)
 
         project = ProjectModel.query.filter_by(id=project_id).one()
         project.status = 'done'
+        project.valid_customer = int(valid_count)
+        project.keyword_num = len(report)
 
         subject = "Lookalike 앱 분석이 완료되었습니다."
         body = """<div style='background-color:#EEEEEE ;width:540px;background-image:-moz-linear-gradient(top left,#53b2de 0%,#EEEEEE 50%);\
@@ -130,8 +132,7 @@ class Analyze(Resource):
         body = body.encode('utf-8').decode('utf-8')
 
         user = UserModel.query.filter_by(id=project.user_id).one()
-        yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[user.email], subject=subject,
-                                                                                    contents=body)
+        # yagmail.SMTP(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']).send(to=[user.email], subject=subject, contents=body)
 
         new_notification = NotificationModel(
             content='{0}의 분석이 완료되었습니다.'.format(project.title),
