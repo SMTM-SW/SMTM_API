@@ -22,8 +22,8 @@ def install():
 
 def deploy():
     with cd('~/JongroDist/'):
-        run('git checkout preview')
-        run('git pull origin preview')
+        run('git checkout master')
+        run('git pull origin master')
         with prefix(env.activate):
             run('pip install -r requirements.txt')
             run('bower install --allow-root')
