@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy.dialects.mysql import BIGINT, TIMESTAMP, JSON
+from sqlalchemy.dialects.mysql import BIGINT, TIMESTAMP, TEXT
 from sqlalchemy.sql.expression import text
 
 from app import app, db
@@ -31,7 +31,7 @@ class ProjectDemoModel(db.Model):
         nullable=False
     )
     keyword_data = db.Column(
-        JSON,
+        TEXT,
         nullable=False
     )
     is_activated = db.Column(

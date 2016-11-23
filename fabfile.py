@@ -22,6 +22,7 @@ def install():
 
 def deploy():
     with cd('~/JongroDist/'):
+        run('git stash')
         run('git checkout master')
         run('git pull origin master')
         with prefix(env.activate):

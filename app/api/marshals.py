@@ -34,6 +34,8 @@ project_field = {
     "description": fields.String(attribute="description"),
     "target_count": fields.Integer(attribute="target_count"),
     "contact_type": fields.String(attribute="contact_type"),
+    "valid_customer": fields.String(attribute="valid_customer"),
+    "keyword_num": fields.String(attribute="keyword_num"),
     "status": fields.String(attribute="status"),
     # TODO : user_id는 나중에 모두 뺄 수 있도록
     "user_id": fields.Integer(attribute="user_id"),

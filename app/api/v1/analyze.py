@@ -115,7 +115,7 @@ class Analyze(Resource):
             new_demo = ProjectDemoModel(
                 project_id=project_id,
                 keyword=i,
-                keyword_data=demo_info[i],
+                keyword_data=str(demo_info[i]),
             )
             db.session.add(new_demo)
 

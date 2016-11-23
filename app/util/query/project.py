@@ -10,6 +10,8 @@ def getProjectListQuery(request_user_id):
                       ProjectModel.target_count,
                       ProjectModel.contact_type,
                       ProjectModel.status,
+                      ProjectModel.valid_customer,
+                      ProjectModel.keyword_num,
                       ProjectModel.user_id,
                       UserModel.username.label('username'),
                       ProjectModel.created_date). \
