@@ -3,6 +3,7 @@ __all__ = [
     'board',
     'target',
     'project',
+    'project_demo',
     'project_target',
     'project_keyword',
     'notification',

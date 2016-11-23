@@ -6,6 +6,7 @@ from app.api.api_request import RequestCrawlerAPI
 from app.api.exceptions import NotFoundError
 from app.models.application.notification import NotificationModel
 from app.models.application.project import ProjectModel
+from app.models.application.project_demo import ProjectDemoModel
 from app.models.application.project_keyword import ProjectKeywordModel
 from app.models.application.user import UserModel
 from app.util.query.target import getProjectTargetQuery
@@ -95,6 +96,7 @@ class Analyze(Resource):
         request_body = request.get_json()
 
         report = request_body['report']
+        demo_info = request_body['demo_info']
         valid_count = request_body['vaild_user_count']
         for idx, i in enumerate(report):
             new_keyword = ProjectKeywordModel(
@@ -106,6 +108,14 @@ class Analyze(Resource):
                 advertise_range=i[3]
             )
             db.session.add(new_keyword)
+
+        for i in demo_info:
+            new_demo = ProjectDemoModel(
+                project_id=project_id,
+                keyword=i,
+                keyword_data=demo_info[i],
+            )
+            db.session.add(new_demo)
 
         project = ProjectModel.query.filter_by(id=project_id).one()
         project.status = 'done'

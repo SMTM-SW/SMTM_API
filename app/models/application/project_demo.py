@@ -1,14 +1,14 @@
 import datetime
 
-from sqlalchemy.dialects.mysql import BIGINT, TIMESTAMP, INTEGER
+from sqlalchemy.dialects.mysql import BIGINT, TIMESTAMP, JSON
 from sqlalchemy.sql.expression import text
 
 from app import app, db
 
 
-class ProjectKeywordModel(db.Model):
+class ProjectDemoModel(db.Model):
     __bind_key__ = app.config.get('DEFAULT_DATABASE')
-    __tablename__ = 'project_keyword'
+    __tablename__ = 'project_demo'
     __table_args__ = {
         'schema': __bind_key__,
         'mysql_engine': 'InnoDB',
@@ -26,33 +26,13 @@ class ProjectKeywordModel(db.Model):
         db.ForeignKey('.'.join((__bind_key__, 'projects.id'))),
         nullable=False
     )
-    ranking = db.Column(
-        INTEGER(unsigned=True),
-        nullable=False,
-        default=0,
-        server_default='0'
-    )
     keyword = db.Column(
         db.String(80),
         nullable=False
     )
-    lookalike_score = db.Column(
-        INTEGER(unsigned=True),
-        nullable=False,
-        default=0,
-        server_default='0'
-    )
-    found_target = db.Column(
-        INTEGER(unsigned=True),
-        nullable=False,
-        default=0,
-        server_default='0'
-    )
-    advertise_range = db.Column(
-        INTEGER(unsigned=True),
-        nullable=False,
-        default=0,
-        server_default='0'
+    keyword_data = db.Column(
+        JSON,
+        nullable=False
     )
     is_activated = db.Column(
         db.Boolean,
